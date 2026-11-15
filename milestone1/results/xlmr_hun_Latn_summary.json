@@ -1,0 +1,23 @@
+{
+  "lang": "hun_Latn",
+  "gpu": "NVIDIA GeForce RTX 3060 Laptop GPU",
+  "platform": "Windows-10-10.0.26200-SP0",
+  "torch": "2.11.0+cu128",
+  "transformers": "5.17.0",
+  "sib200_commit": "efad32e0fc601cfbfdf5ca80672f29697f6f401f",
+  "settings": {
+    "model": "FacebookAI/xlm-roberta-base",
+    "max_seq_length": 164,
+    "train_batch": 8,
+    "grad_accum": 4,
+    "epochs": 20,
+    "lr": 1e-05
+  },
+  "effective_batch": 32,
+  "ours_mean_acc": 85.58823529411765,
+  "ours_std_acc": 1.3244368711868943,
+  "authors_mean_acc": 85.98039215686273,
+  "authors_std_acc": 1.0164922232023406,
+  "ours_mean_f1": 85.26815961976634,
+  "authors_mean_f1": 85.58567312454886
+}
