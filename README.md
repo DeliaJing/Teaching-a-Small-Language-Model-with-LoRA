@@ -24,17 +24,17 @@ try to improve one with cheap fine-tuning (LoRA). We use two benchmarks that exi
 README.md                      this report
 requirements.txt               library versions we used
 milestone1/
-  SIB200_Milestone1_Final.ipynb    English XLM-R run (Colab), with outputs
-  sib200_milestone1_final.py       the same notebook as a .py file
-  run_xlmr_sib200.py               the same pipeline as a script, used for the Hungarian run
-  results/                         our results and the authors' results, per seed
+  SIB200_Milestone1_Final.ipynb       English XLM-R run (Google Colab, A100), with outputs
+  sib200_milestone1_final.py          the English notebook as a .py file
+  SIB200_Milestone1_Hungarian.ipynb   Hungarian XLM-R run (laptop GPU), same steps, with outputs
+  results/                            our results and the authors' results, per seed
 milestone2/
-  Milestone2.ipynb             the whole Milestone 2 experiment, with outputs
-  m2_helper.py                 helper code used by the notebook (data, prompts, training, evaluation)
+  Milestone2.ipynb                    the whole Milestone 2 experiment, with outputs
+  Milestone2_helper.py                helper code used by the notebook (data, prompts, training, evaluation)
   results/
-    runs.csv                   every run we did, with its settings and results
-    tables.md                  all result tables
-    plots/                     the figures below
+    runs.csv                          every run we did, with its settings and results
+    tables.md                         all result tables
+    plots/                            the figures below
 ```
 
 ---
@@ -52,8 +52,8 @@ use the original training code to tokenize the text for XLM-R base.
 **Settings.** The exact XLM-R base command is not in the authors' repository, so we use the settings of their
 `glot.sh` script (the Glot500 script mentioned in the assignment): 20 epochs, batch size 16 with gradient
 accumulation 2 (effective batch 32), maximum sequence length 164, learning rate 1e-5, BF16 mixed precision.
-English was trained on a Colab A100. Hungarian was trained on an RTX 3060 laptop GPU (6 GB) with batch size 8
-and gradient accumulation 4, which keeps the effective batch size at 32.
+English was trained on a Colab A100 (`SIB200_Milestone1_Final.ipynb`). Hungarian was trained with exactly the
+same notebook steps and settings on an RTX 3060 laptop GPU, 6 GB (`SIB200_Milestone1_Hungarian.ipynb`).
 
 **Compatibility fixes.** Four changes make the original code work with newer libraries:
 
@@ -70,15 +70,15 @@ its model, training log and results. The validation set is not used: the origina
 
 | Seed | English (ours) | English (authors) | Hungarian (ours) | Hungarian (authors) |
 |---|---:|---:|---:|---:|
-| 1 | 89.71% | 90.20% | 87.75% | 84.31% |
-| 2 | 88.24% | 89.22% | 84.31% | 86.76% |
-| 3 | 89.71% | 90.69% | 85.78% | 85.78% |
+| 1 | 89.71% | 90.20% | 86.76% | 84.31% |
+| 2 | 88.24% | 89.22% | 85.78% | 86.76% |
+| 3 | 89.71% | 90.69% | 86.76% | 85.78% |
 | 4 | 90.69% | 90.69% | 84.80% | 86.27% |
-| 5 | 91.18% | 89.22% | 85.29% | 86.76% |
-| **Average** | **89.90%** | **90.00%** | **85.59%** | **85.98%** |
+| 5 | 91.18% | 89.22% | 87.25% | 86.76% |
+| **Average** | **89.90%** | **90.00%** | **86.27%** | **85.98%** |
 
-Our averages are 0.10 (English) and 0.39 (Hungarian) percentage points below the authors'. That is less than
-the difference between seeds, so we reproduced the baseline closely.
+Our English average is 0.10 percentage points below the authors' and our Hungarian average is 0.29 above.
+Both differences are smaller than the differences between seeds, so we reproduced the baseline closely.
 
 ---
 
@@ -113,7 +113,7 @@ set (204 sentences) unless noted.
 
 | Method | Hungarian SIB-200 | English SIB-200 | Hungarian Belebele | GPU memory | Training time |
 |---|---|---|---|---|---|
-| XLM-R base, full fine-tuning (Milestone 1) | 85.6% | 89.9% | – | – | – |
+| XLM-R base, full fine-tuning (Milestone 1) | 86.3% | 89.9% | – | – | – |
 | Qwen3-1.7B, no training | 48.0% | 50.5% | 37.5% | – | – |
 | **Qwen3-1.7B + LoRA (best setting, 3 runs)** | **87.8%** | **91.2%** | **52.2%** | 3.0 GB | 2.2 min |
 
@@ -149,7 +149,7 @@ The default setting was rank 16, 4-bit, learning rate 2e-4, 2 epochs. Each row c
 
 ### What worked
 
-* **LoRA works very well.** Accuracy went from 48% to 87.8%, better than fully training XLM-R (85.6%),
+* **LoRA works very well.** Accuracy went from 48% to 87.8%, better than fully training XLM-R (86.3%),
   while training only 1% of the model for about 2 minutes.
 * **4-bit (QLoRA) saves a lot of memory for free.** It needs 3.0 GB instead of 4.9 GB (39% less) with
   the same accuracy.
@@ -192,9 +192,9 @@ uv pip install --python .venv -r requirements.txt
      BF16-capable GPU) and click **Runtime → Run all**. It installs the libraries, downloads SIB-200, applies
      the fixes, trains the five models and shows the results. (The `.py` file next to it is an export of the
      notebook and was not tested on its own.)
-   * *Hungarian* (about 20 minutes on a 6 GB GPU):
-     `python milestone1/run_xlmr_sib200.py --lang hun_Latn --train_batch 8 --grad_accum 4`.
-     This script does the same steps as the notebook, for any language.
+   * *Hungarian:* run `milestone1/SIB200_Milestone1_Hungarian.ipynb` from top to bottom on a local GPU (about
+     35 minutes on a 6 GB laptop GPU). It is the same notebook adapted for Hungarian and local paths; it uses
+     the SIB-200 repository in `external/` and the libraries from `requirements.txt`.
 2. **Milestone 2:** run `milestone2/Milestone2.ipynb` from top to bottom (about 2.5 hours from scratch).
    Each run is saved to `results/runs.csv`. Runs that are already there are not repeated, so the notebook
    can be restarted if it stops. The saved outputs were produced this way, so each run shows when it was
