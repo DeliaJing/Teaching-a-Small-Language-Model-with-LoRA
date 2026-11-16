@@ -1,0 +1,24 @@
+# Versions used for the Milestone 1 Hungarian run and all Milestone 2 experiments
+# (Windows 11, RTX 3060 Laptop 6 GB, Python 3.11).
+# Install CUDA PyTorch first, e.g. with uv:
+#   uv pip install --torch-backend=cu128 torch==2.11.0 torchvision==0.26.0
+# On Colab, `pip install unsloth` is enough (the notebooks do this automatically).
+torch==2.11.0
+torchvision==0.26.0
+transformers==5.17.0
+peft==0.21.3
+trl==1.15.0
+bitsandbytes==0.50.2
+unsloth==2026.11.4
+unsloth-zoo==2026.11.4
+accelerate==1.15.0
+datasets==4.8.5
+huggingface-hub==1.33.0
+scikit-learn==1.9.1
+pandas==3.1.1
+numpy==2.4.6
+matplotlib==3.11.2
+sentencepiece==0.2.3
+tabulate==0.10.0
+tensorboard==2.21.0          # imported by the original SIB-200 training script
+triton-windows==3.9.0.post30 ; sys_platform == "win32"

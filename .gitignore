@@ -1,0 +1,24 @@
+# External data / code (cloned automatically by the scripts)
+external/
+
+# Model checkpoints and LoRA adapters (too large for git; reproducible from runs.csv)
+milestone1/checkpoints/
+milestone2/adapters/
+
+# Python / Jupyter
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.venv/
+
+# Unsloth auto-generated code
+unsloth_compiled_cache/
+
+# Raw training logs (mostly progress bars); results are in the CSV/JSON files
+milestone1/results/logs/
+milestone2/results/logs/*.log
+milestone2/results/logs/_nb*.out
+
+# Per-example predictions: kept locally, not needed for review (metrics are in runs.csv / tables.md)
+milestone2/results/predictions/
+milestone1/results/*_test_predictions_*.txt
