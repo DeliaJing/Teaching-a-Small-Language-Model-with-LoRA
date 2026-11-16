@@ -22,3 +22,6 @@ milestone2/results/logs/_nb*.out
 # Per-example predictions: kept locally, not needed for review (metrics are in runs.csv / tables.md)
 milestone2/results/predictions/
 milestone1/results/*_test_predictions_*.txt
+
+# TensorBoard logs written by the original SIB-200 training script
+milestone1/runs/

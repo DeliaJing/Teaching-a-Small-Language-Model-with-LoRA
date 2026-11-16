@@ -12,7 +12,7 @@ Everything an experiment needs lives here, so the notebook (Milestone2.ipynb) st
 Each experiment runs in its own subprocess (`launch(cfg)`) so that GPU memory / time measurements
 start from zero and an out-of-memory crash is recorded instead of killing the notebook:
 
-    python m2_helper.py --config '{"run_id": "...", "kind": "lora", ...}'
+    python Milestone2_helper.py --config '{"run_id": "...", "kind": "lora", ...}'
 """
 from __future__ import annotations
 
@@ -482,7 +482,7 @@ def launch(cfg: dict, force: bool = False) -> dict | None:
     t0 = time.time()
     env = {**os.environ, "PYTHONIOENCODING": "utf-8", "TOKENIZERS_PARALLELISM": "false"}
     with open(log_path, "w", encoding="utf-8") as log:
-        r = subprocess.run([sys.executable, str(HERE / "m2_helper.py"), "--config", json.dumps(cfg)],
+        r = subprocess.run([sys.executable, str(HERE / "Milestone2_helper.py"), "--config", json.dumps(cfg)],
                            stdout=log, stderr=subprocess.STDOUT, env=env, cwd=str(HERE))
     tail = log_path.read_text(encoding="utf-8", errors="replace").splitlines()
     for line in tail:
